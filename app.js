@@ -1,60 +1,53 @@
-var http    = require ('http');
-var express = require ('express');
-var io      = require ('socket.io')(server);
+var wsUri = "wss://ws.blockchain.info/inv";
+var output;
+var TYPE_BLOCK = "block";
 
-var app     = express();
+function init() {
+  output = document.getElementById("output");
+  initWebSocket();
+}
 
-var wsUri = "ws://ws.blockchain.info/inv";
+function initWebSocket() {
+  //  init blockchain websocket (activity, blocks)
+  var blockchain = new WebSocket('ws://ws.blockchain.info/inv');
+  
 
-// this line hooks up express and server
-var server  = http.Server(app);
+  //  subscribe to uncofirmed activity
+  blockchain.onopen = function () {
+    blockchain.send( JSON.stringify( {"op":"unconfirmed_sub"} ) );
+  };
+ 
+ // when messages is received turn it to json and pass it to message.data
+  blockchain.onmessage = function (message) {
+    var response = JSON.parse(message.data);
+    console.log(message);
+    
 
-//bring in socket io to and have it listen to server
+    if( response.op == "utx") {
+      var amount = 0;
+      
+      for(var i=0;i<response.x.out.length;i++)
+        amount += response.x.out[i].value;
+      
+      response.amount = amount / 100000000;
 
-
-////////////// ROUTING ///////////////
-app.get('/', function(request,response){
-  console.log (__dirname);
-  response.sendFile(__dirname + '/index.html');
-});
-
-
-///////////////// SOCKET.IO /////////////
-
-
-////////////// connect to BLOCK CHAIN /////////
-// var bC = io.connect("ws://ws.blockchain.info/inv");
-
-// bC.on('connection', function(){
-//   console.log('block chain socket connected');
-// });
-
-
-
-
-io.on('connection', function(handler) {
-  console.log("socketconnected");
-
-  handler.on('message', function(m) {
-    console.log('message: ' + m);
-    console.log('client is connect to server');
-
-    io.emit('chat', m);
-
-  });
-});
-
-server.listen(3000);
-console.log("server is running");
+    }
+    else if( response.op == "block" ) {
+      response.type = TYPE_BLOCK;
+      response.amount = Math.round( response.x.height / 10000 );
+    }
+    
+    writeToScreen(response.amount);
+  };
+}
 
 
+function writeToScreen(message)
+{
+  var pre = document.createElement("p");
+  pre.style.wordWrap = "break-word";
+  pre.innerHTML = message;
+  output.appendChild(pre);
+}
 
-
-
-
-// BLOW DOES WHAT EXPRESS() DOES
-// var server = http.createServer(function(request, response){
-//   response.end(JSON.stringify({name: "bill"}));
-// });
-
-// server.listen(9000);
+window.addEventListener("load", init, false);

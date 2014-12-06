@@ -3,85 +3,12 @@
 <meta charset="utf-8" />
 
 <title>WebSocket Test</title>
+<script type="text/javascript" src="app.js"></script>
 
 
 
-
-<script language="javascript" type="text/javascript">
-
-  var wsUri = "wss://ws.blockchain.info/inv";
-  var output;
-
-  function init() {
-    output = document.getElementById("output");
-    initWebSocket();
-  }
-
-  function initWebSocket() {
-    //  init blockchain websocket (activity, blocks)
-    var blockchain = new WebSocket('ws://ws.blockchain.info/inv');
-        
-    blockchain.onopen = function () {
-      blockchain.send( JSON.stringify( {"op":"unconfirmed_sub"} ) );  //  subscribe to uncofirmed activity
-    };
-   
-    blockchain.onmessage = function (message) {
-      var response = JSON.parse(message.data);
-      
-      var date = new Date(0);
-      date.setUTCSeconds( response.x.time );
-      
-      if( response.op == "utx") {
-        var amount = 0;
-        
-        for(var i=0;i<response.x.out.length;i++) 
-          amount += response.x.out[i].value;
-        
-        //  amount is in satoshi
-        //  1 BTC = 100,000,000 Satoshi (https://en.bitcoin.it/wiki/activity)
-        response.amount = amount / 100000000;
-        response.type = TYPE_TRANSACTION;
-        response.index = index++;
-      }
-      else if( response.op == "block" ) {
-        response.type = TYPE_BLOCK;
-        response.amount = Math.round( response.x.height / 10000 );
-      }
-      
-      if( DEBUG ) 
-        console.log( response.op, response );
-      
-      response.date = date;
-      
-      writeToScreen('<span style="color: blue;">RESPONSE: ' + response.amount+'</span>');
-    };
-  }
-
-
-  function writeToScreen(message)
-  {
-    var pre = document.createElement("p");
-    pre.style.wordWrap = "break-word";
-    pre.innerHTML = message;
-    output.appendChild(pre);
-  }
-  
-  //  constants
-  var TYPE_TRANSACTION = "transaction";
-  var TYPE_TRADE = "trade";
-  var TYPE_BLOCK = "block";
-  var MINUTE = 1000*60;
-  var HOUR = MINUTE*60;
-  var MIN_MINUTES = 1;
-  var MAX_MINUTES = 10;
-  var DEBUG = true;
-  var activity = [];
-  var index = 0;
-
-  window.addEventListener("load", init, false);
-
+<script>
 </script>
-
 
 
 <a href="barchart.html">barchart</a>

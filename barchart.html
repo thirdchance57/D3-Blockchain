@@ -1,23 +1,23 @@
 <script type="text/javascript" src="js/_VisualSedimentation.js"></script>
+<script type="text/javascript" src="app.js"></script>
 
-<script type="text/javascript">    
+<a href="index.html">index</a>
+<div id="myDemo">Hello World container
+<button  type="button" onclick="barChart.addToken({id:'myId',size:30,category:0})" accesskey="b">  ↓ id="myId" </button>
+</div>
+<script>    
   mySettings = {
-      width:300,
-      height:300,
+      width:1350,
+      height:600,
       data:{
             "model":
                     [
-                      {label:"Column A"},
-                      {label:"Column B"},
-                      {label:"Column C"},
+                      {label:"Column B"}
+                      
                     ],
             "strata":[
                       [
-                        {initValue: 100, label: "Strata 1 col A"}
-                      ],[
                         {initValue: 20, label: "Strata 1 col B"}
-                      ],[
-                        {initValue: 175, label: "Strata 2 col C"}
                       ]      
                     ],
           stream:{
@@ -27,9 +27,9 @@
           },
       sedimentation:{
         token:{
-          size:{original:6,minimum:2}
+          size:{original:20}
         },
-        aggregation:{height:200},
+        aggregation:{height:10},
         suspension:{
           decay:{power:1.01}
         }
@@ -40,12 +40,7 @@
       chart:{
       }
     }
+
   // Init the sedimentation
   var barChart = $("#myDemo").vs(mySettings).data('visualSedimentation');
-</script>
-<a href="index.html">index</a>
-
-<div id="myDemo">Hello World container</div>
-<script>
-  var scene =  $("#myDemo").vs().data('visualSedimentation');
-</script>
+</script> 
