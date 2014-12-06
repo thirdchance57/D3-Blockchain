@@ -1,0 +1,51 @@
+<script type="text/javascript" src="js/_VisualSedimentation.js"></script>
+
+<script type="text/javascript">    
+  mySettings = {
+      width:300,
+      height:300,
+      data:{
+            "model":
+                    [
+                      {label:"Column A"},
+                      {label:"Column B"},
+                      {label:"Column C"},
+                    ],
+            "strata":[
+                      [
+                        {initValue: 100, label: "Strata 1 col A"}
+                      ],[
+                        {initValue: 20, label: "Strata 1 col B"}
+                      ],[
+                        {initValue: 175, label: "Strata 2 col C"}
+                      ]      
+                    ],
+          stream:{
+                  provider:'generator',
+                  refresh:10000/4
+            },
+          },
+      sedimentation:{
+        token:{
+          size:{original:6,minimum:2}
+        },
+        aggregation:{height:200},
+        suspension:{
+          decay:{power:1.01}
+        }
+      },
+      options:{
+        layout:false
+      },
+      chart:{
+      }
+    }
+  // Init the sedimentation
+  var barChart = $("#myDemo").vs(mySettings).data('visualSedimentation');
+</script>
+<a href="index.html">index</a>
+
+<div id="myDemo">Hello World container</div>
+<script>
+  var scene =  $("#myDemo").vs().data('visualSedimentation');
+</script>
