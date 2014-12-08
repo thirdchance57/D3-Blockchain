@@ -20,22 +20,25 @@ function initWebSocket() {
  // when messages is received turn it to json and pass it to message.data
   blockchain.onmessage = function (message) {
     var response = JSON.parse(message.data);
-    console.log(message);
+    // console.log(message);
     
-
+    // unconfirmed transactions 
     if( response.op == "utx") {
       var amount = 0;
       
-      for(var i=0;i<response.x.out.length;i++)
+      for(var i = 0; i < response.x.out.length; i++ )
         amount += response.x.out[i].value;
       
       response.amount = amount / 100000000;
 
+      if( response.amount <= 3 ) {
+        response.amount = 3 ;
+      }
+      console.log (response.amount);
 
     }
-      // if( response.amount <= 1 ) {
-      //   response.amount = 5 ;
-      // }
+
+    // blocks created
     else if( response.op == "block" ) {
       response.type = TYPE_BLOCK;
       response.amount = Math.round( response.x.height / 10000 );
