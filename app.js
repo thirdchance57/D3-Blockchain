@@ -55,7 +55,7 @@ function writeToScreen(message) {
     size: message,
     category:0,
     texture: {
-      src:'http://img.vanislervrentals.com/payments/bitcoin.gif'
+      src:'btc.png'
     }
   });
 
