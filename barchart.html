@@ -1,46 +1,61 @@
+<!-- REQUIRE THE D3 LIBRARY Visual Sedimentation -->
 <script type="text/javascript" src="js/_VisualSedimentation.js"></script>
+
+<!-- REQUIRE APP.JS FOR THE WEBSOCKET -->
 <script type="text/javascript" src="app.js"></script>
 
+
+<!-- DIV ID OUTPUT WILL STREAM THE BTC TRANSACTIONS -->
+<!-- <div id="output"></div> -->
 <a href="index.html">index</a>
-<div id="myDemo">Hello World container
-<button  type="button" onclick="barChart.addToken({id:'myId',size:30,category:0})" accesskey="b">  ↓ id="myId" </button>
+<p class="output"></p>
+
+<!-- START OF D3 BARCHART -->
+<div id="myDemo">
+<!-- In here is the ball action -->
 </div>
+
 <script>    
   mySettings = {
-      width:1350,
-      height:600,
-      data:{
-            "model":
-                    [
-                      {label:"Column B"}
-                      
-                    ],
-            "strata":[
-                      [
-                        {initValue: 20, label: "Strata 1 col B"}
-                      ]      
-                    ],
-          stream:{
-                  provider:'generator',
-                  refresh:10000/4
+    width:1350,
+
+    height:650,
+
+    data: { 
+      "model":[ {label:"Column B"} ],
+      "strata":[[ {
+        initValue: 20, 
+        label: "Strata 1 col B"
+      }]],
+
+    // start of automatic token generator 
+    stream:{ provider:0,
             },
-          },
-      sedimentation:{
-        token:{
-          size:{original:20}
-        },
-        aggregation:{height:10},
-        suspension:{
-          decay:{power:1.01}
-        }
+    },
+
+    sedimentation:{
+
+      // TOKENS ARE THE BALLS THAT DROP
+      token:{
+        size:{original:20},
+        texture:{src:'http://img.vanislervrentals.com/payments/bitcoin.gif'},
       },
-      options:{
-        layout:false
-      },
-      chart:{
+      aggregation:{height:30},
+      suspension:{
+        decay:{power:1.01}
       }
+    },
+    options:{
+      layout:false
+    },
+    chart:{
     }
+  }
 
   // Init the sedimentation
   var barChart = $("#myDemo").vs(mySettings).data('visualSedimentation');
-</script> 
+
+</script>
+<!-- END OF D3 BARCHART -->
+
+   

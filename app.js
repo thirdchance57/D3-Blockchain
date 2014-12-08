@@ -3,7 +3,7 @@ var output;
 var TYPE_BLOCK = "block";
 
 function init() {
-  output = document.getElementById("output");
+  // output = document.getElementById("output");
   initWebSocket();
 }
 
@@ -31,7 +31,11 @@ function initWebSocket() {
       
       response.amount = amount / 100000000;
 
+
     }
+      // if( response.amount <= 1 ) {
+      //   response.amount = 5 ;
+      // }
     else if( response.op == "block" ) {
       response.type = TYPE_BLOCK;
       response.amount = Math.round( response.x.height / 10000 );
@@ -42,12 +46,17 @@ function initWebSocket() {
 }
 
 
-function writeToScreen(message)
-{
-  var pre = document.createElement("p");
-  pre.style.wordWrap = "break-word";
-  pre.innerHTML = message;
-  output.appendChild(pre);
+function writeToScreen(message) {
+  var pre = barChart.addToken( {
+    id:'myId',
+    size: message,
+    category:0,
+    texture: {
+      src:'http://img.vanislervrentals.com/payments/bitcoin.gif'
+    }
+  });
+
+  // message = document.getElementByClass('output');
 }
 
 window.addEventListener("load", init, false);
