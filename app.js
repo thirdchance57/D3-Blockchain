@@ -8,7 +8,6 @@ function init() {
 }
 
 function initWebSocket() {
-  "use strict";
     //  init blockchain websocket (activity, blocks)
   var blockchain = new WebSocket('ws://ws.blockchain.info/inv');
   // var litecoin = new WebSocket('ws://ws.ltcchain.com:8000');
@@ -66,7 +65,6 @@ function initWebSocket() {
 
 // fires a function to drop a d3 token (message is the btc transaction size from response.amount)
 function writeToScreen(message) {
-  "use strict";
   barChart.addToken( {
     id:'myId',
     size: message,
