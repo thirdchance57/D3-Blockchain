@@ -16,7 +16,6 @@
 
     width:1350,
     height:600,
-
     data: { 
       "model":[ {label:"Column B"} ],
       "strata":[[ {
@@ -36,7 +35,7 @@
       },
       aggregation:{height:1},
       suspension:{
-        decay:{power:1.01}
+        decay:{power:1.001}
       }
     },
     options:{
@@ -46,7 +45,7 @@
     }
   }
 
-  // Init the sedimentation
+  // Init the sedimentation library
   var barChart = $("#myDemo").vs(mySettings).data('visualSedimentation');
 
 </script>
